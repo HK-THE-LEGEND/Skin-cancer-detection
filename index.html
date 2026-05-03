@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloud-Enabled AI System for Skin Cancer Detection</title>
+  <meta name="description" content="Cloud-Enabled AI System for Skin Cancer Detection Using EfficientNet and Explainable Federated Learning. Upload a dermatoscopic image for instant AI-powered classification.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
+</head>
+<body>
+
+  <!-- Animated Background -->
+  <div class="bg-canvas" aria-hidden="true">
+    <div class="bg-orb bg-orb--1"></div>
+    <div class="bg-orb bg-orb--2"></div>
+    <div class="bg-orb bg-orb--3"></div>
+  </div>
+
+  <div class="app-wrapper">
+
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="/" class="brand">
+          <div class="brand-icon">🔬</div>
+          <span class="brand-name">SkinAI</span>
+        </a>
+        <span class="nav-badge">EfficientNet • Federated Learning • HAM10000</span>
+      </div>
+    </nav>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero container">
+        <h1>Cloud-Enabled AI System for <span class="gradient-text">Skin Cancer Detection</span></h1>
+        <p>Using EfficientNet &amp; Explainable Federated Learning — upload a dermatoscopic image for instant classification across 7 diagnostic categories.</p>
+      </section>
+
+      <!-- Upload Section -->
+      <section class="upload-section container" id="uploadSection">
+        <div class="glass-card">
+          <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="Upload skin lesion image">
+            <div class="upload-icon">📷</div>
+            <h2 class="upload-title">Drop your image here</h2>
+            <p class="upload-subtitle">or click to browse • JPG, PNG, WebP • Max 10 MB</p>
+            <button class="upload-btn" id="uploadBtn" type="button">
+              <span>Choose Image</span>
+            </button>
+            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/bmp" hidden>
+          </div>
+
+          <!-- Preview -->
+          <div class="preview-area" id="previewArea">
+            <div class="preview-wrapper">
+              <img class="preview-img" id="previewImg" src="" alt="Selected image preview">
+              <div class="preview-info">
+                <div class="preview-name" id="previewName"></div>
+                <div class="preview-size" id="previewSize"></div>
+              </div>
+              <div class="preview-actions">
+                <button class="btn-analyze" id="analyzeBtn" type="button">🔍 Analyze</button>
+                <button class="btn-clear" id="clearBtn" type="button">Clear</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loading -->
+          <div class="loading-overlay" id="loadingOverlay">
+            <div class="spinner"></div>
+            <div class="loading-text">Analyzing skin lesion...</div>
+            <div class="loading-subtext">Running EfficientNet-B3 inference</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results Section -->
+      <section class="results-section container" id="resultsSection">
+        <div class="results-header">
+          <h2 class="results-title">Diagnosis Report</h2>
+          <button class="btn-new-scan" id="newScanBtn" type="button">+ New Scan</button>
+        </div>
+
+        <!-- Main Result -->
+        <div class="glass-card result-main" id="resultMain">
+          <div class="confidence-ring" id="confidenceRing">
+            <svg viewBox="0 0 140 140">
+              <circle class="ring-bg" />
+              <circle class="ring-fill" id="ringFill" />
+            </svg>
+            <div class="confidence-value">
+              <span class="confidence-pct" id="confidencePct">0%</span>
+              <span class="confidence-label">Confidence</span>
+            </div>
+          </div>
+          <div class="result-details">
+            <div class="result-diagnosis" id="resultDiagnosis">—</div>
+            <div class="result-fullname" id="resultFullname">—</div>
+            <span class="risk-badge" id="riskBadge">—</span>
+          </div>
+        </div>
+
+        <!-- Grad-CAM Visualization -->
+        <div class="glass-card gradcam-section" id="gradcamSection">
+          <div class="gradcam-header">
+            <div class="gradcam-title">🧠 Explainable AI — Grad-CAM Analysis</div>
+            <div class="gradcam-subtitle">Regions the model focused on to make its prediction</div>
+          </div>
+          <div class="gradcam-grid">
+            <div class="gradcam-card">
+              <div class="gradcam-img-wrap">
+                <img id="imgOriginal" src="" alt="Original input image">
+              </div>
+              <div class="gradcam-card-label">Original Image</div>
+            </div>
+            <div class="gradcam-card">
+              <div class="gradcam-img-wrap">
+                <img id="imgGradcam" src="" alt="Grad-CAM overlay showing model attention">
+              </div>
+              <div class="gradcam-card-label">Grad-CAM Overlay</div>
+            </div>
+            <div class="gradcam-card">
+              <div class="gradcam-img-wrap">
+                <img id="imgHeatmap" src="" alt="Intensity heatmap">
+              </div>
+              <div class="gradcam-card-label">Attention Heatmap</div>
+            </div>
+          </div>
+          <div class="intensity-bar-wrap">
+            <div class="intensity-bar"></div>
+            <div class="intensity-labels">
+              <span>Low Attention</span>
+              <span>Medium</span>
+              <span>High Attention</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info Cards -->
+        <div class="info-grid">
+          <div class="glass-card info-card">
+            <div class="info-card-label">📋 Description</div>
+            <div class="info-card-text" id="infoDescription">—</div>
+          </div>
+          <div class="glass-card info-card">
+            <div class="info-card-label">💡 Recommendation</div>
+            <div class="info-card-text" id="infoRecommendation">—</div>
+          </div>
+        </div>
+
+        <!-- Probability Chart -->
+        <div class="glass-card prob-card">
+          <div class="prob-card-title">Class Probabilities</div>
+          <div id="probChart"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Disclaimer -->
+    <footer class="disclaimer container">
+      <p><span class="warn-icon">⚠️</span> This AI system is a research tool and does <strong>not</strong> replace professional medical advice. Always consult a board-certified dermatologist for clinical diagnosis and treatment.</p>
+    </footer>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
